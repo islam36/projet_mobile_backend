@@ -3,6 +3,8 @@ const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 
+const userRouter = require("./routes/user");
+
 const DB_URL = process.env.DB_URL;
 
 mongoose.connect(DB_URL).then(() => {
@@ -14,11 +16,25 @@ const app = express();
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.all("/", (req, res) => {
+
+const errorHandler = (err, req, res, next) => {
+    console.log("there was an error");
+
+    return res.status(500).json({
+        message: "there was an internal server error!"
+    });
+}
+
+app.use("/users", userRouter);
+
+app.get("/", (req, res) => {
     res.json({
         message: "hello world"
     });
 });
+
+app.use(errorHandler);
+
 
 const PORT = process.env.PORT || 8000;
 
