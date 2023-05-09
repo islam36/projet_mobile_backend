@@ -33,7 +33,7 @@ app.get("/", (req, res) => {
     });
 });
 
-app.use(errorHandler);
+
 
 
 const PORT = process.env.PORT || 8000;

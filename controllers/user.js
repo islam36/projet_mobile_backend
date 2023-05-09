@@ -1,63 +1,54 @@
 const User = require("../models/user");
 
-exports.getUser = (req, res) => {
-    const user = User.findById(req.params.id);
+exports.getAllUsers = async (req, res) => {
+    const users = await User.find();
+
+    return res.json(users);
+}
+
+exports.getUser = async (req, res) => {
+    
+    const user = await User.findById(req.params.id);
 
     if(user == null) {
-        return res.status(404).json({
-            message: "user not found"
-        });
+        return res.status(404).end();
     }
 
-    return res.json({
-        user,
-        message: "user found"
-    });
+    return res.json(user);
 };
 
 
-exports.createUser = (req, res) => {
-    let user = null;
+exports.createUser = async (req, res) => {
+    let user = await User.findOne({ email: req.body?.email });
 
-    try {
-        user = User.create(req.body);
-    } catch(err) {
-        throw new Error(err.message);
+    if(user == null) {
+        user = new User(req.body);
+        await user.save();
+
+        return res.json(user);
     }
 
-    return res.status(201).json({
-        user,
-        message: "user created successfully"
-    });
+    return res.status(400).json(null);
 };
 
 
-exports.editUser = (req, res) => {
-    const user = User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+exports.editUser = async (req, res) => {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
     if(user == null) {
-        return res.status(404).json({
-            message: "user not found"
-        });
+        return res.status(404).end();
     }
 
-    return res.json({
-        user,
-        message: "user updated successfully"
-    });
+    return res.json(user);
 };
 
 
-exports.deleteUser = (req, res) => {
-    const user = User.findByIdAndDelete(req.params.id);
+exports.deleteUser = async (req, res) => {
+    const user = await User.findByIdAndDelete(req.params.id);
 
     if(user == null) {
-        return res.status(404).json({
-            message: "user not found"
-        });
+        return res.status(404).end()
     }
 
-    return res.json({
-        message: "user deleted successfully"
-    });
+    return res.status(200).end();
 }
