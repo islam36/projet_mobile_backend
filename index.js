@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const path = require("path");
 
 const userRouter = require("./routes/user");
 const restaurantRouter = require("./routes/restaurant");
@@ -17,6 +18,8 @@ const app = express();
 
 app.use(express.json());
 app.use(morgan("dev"));
+
+app.use("/static", express.static(path.join(__dirname, "public")));
 
 
 const errorHandler = (err, req, res, next) => {
