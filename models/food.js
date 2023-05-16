@@ -8,7 +8,8 @@ const foodSchema = new mongoose.Schema({
         type: String
     },
     image: {
-        type: String
+        type: String,
+        default: ""
     },
     prix: {
         type: String

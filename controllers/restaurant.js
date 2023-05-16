@@ -1,4 +1,5 @@
 const Restaurant = require("../models/restaurant");
+const Food = require("../models/food");
 
 exports.getAllRestaurants = async (req, res) => {
     const restaurants = await Restaurant.find();
@@ -76,4 +77,18 @@ exports.deleteRestaurant = async (req, res) => {
     }
 
     return res.status(200).end();
+}
+
+
+
+exports.getAllFoodsOfRestaurant = async (req, res) => {
+    const foods = await Food.find({ restaurantId: req.params.id });
+
+    const response = foods.map(food => ({
+            ...food._doc,
+            id: food._id.toString()
+        })
+    );
+
+    return res.json(response);
 }
