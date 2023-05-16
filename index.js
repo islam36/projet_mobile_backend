@@ -4,6 +4,8 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 
 const userRouter = require("./routes/user");
+const restaurantRouter = require("./routes/restaurant");
+const authRouter = require("./routes/auth");
 
 const DB_URL = process.env.DB_URL;
 
@@ -25,7 +27,9 @@ const errorHandler = (err, req, res, next) => {
     });
 }
 
+app.use("/auth", authRouter);
 app.use("/users", userRouter);
+app.use("/restaurants", restaurantRouter);
 
 app.get("/", (req, res) => {
     res.json({

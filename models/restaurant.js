@@ -2,73 +2,40 @@ const mongoose = require("mongoose");
 const { PHONR_REGEX, EMAIL_REGEX } = require("../util/constants");
 
 const restaurantSchema = new mongoose.Schema({
-    name: {
+    nom: {
         type: String,
-        required: [true, "restaurant name is required"],
-        unique: true,
+        required: true
     },
     logo: {
         type: String,
-        default: ""
+        default: "" 
     },
-    address: {
-        type: String,
-        required: [true, "restaurant address is required"]
+    cuisine_type: {
+        type: String
     },
-    logitude: {
-        type: Number,
-        required: [true, "restaurant logitude is required"]
+    longitude: {
+        type: Number
     },
     latitude: {
-        type: Number,
-        required: [true, "restaurant latitude is required"]
-    },
-    cuisineType: {
-        type: String,
-        required: [true, "restaurant cuisine type is required"]
-    },
-    rating: {
-        type: Number,
-        min: 1,
-        max: 5,
-    },
-    numberOfReviews: {
-        type: Number,
-        min: 0,
-    },
-    phone: {
-        type: String,
-        match: PHONR_REGEX,
-        unique: true,
+        type: Number
     },
     email: {
         type: String,
-        match: EMAIL_REGEX,
-        unique: true
+        match: EMAIL_REGEX
     },
-    facebook: {
+    phone: {
         type: String,
-        unique: true,
+        match: PHONR_REGEX
+    },
+    fb: {
+        type: String
     },
     instagram: {
-        type: String,
-        unique: true,
+        type: String
     },
-    twitter: {
-        type: String,
-        unique: true,
-    },
-    website: {
-        type: String,
-        unique: true,
-    },
-    deliveryFee: {
-        type: Number,
-        min: 1,
-        required: [true, "restaurant delivery fee is required "]
+    adress: {
+        type: String
     }
-}, {
-    timestamps: true,
 });
 
 module.exports = mongoose.model("restaurant", restaurantSchema);

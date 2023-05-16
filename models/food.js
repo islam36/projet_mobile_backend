@@ -1,34 +1,26 @@
 const mongoose = require("mongoose");
 
 const foodSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: [true, "food name is required"]
+    nom: {
+        type: String
     },
-    type: {
-        type: String,
-        enum: ["meal", "drink", "dessert"]
+    description: {
+        type: String
     },
-    price: {
+    image: {
+        type: String
+    },
+    prix: {
+        type: String
+    },
+    quantity: {
         type: Number,
-        min: 1,
-        required: [true, "food price is required"]
+        default: 1
     },
     restaurantId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'restaurant',
-        required: [true, "restaurantId is required"]
-    },
-    photo: {
-        type: String,
-        default: ""
-    },
-    description: {
-        type: String,
-        default: ""
-    },
-}, {
-    timestamps: true,
+        ref: "restaurant"
+    }
 });
 
 

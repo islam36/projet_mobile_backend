@@ -28,15 +28,10 @@ const userSchema = new mongoose.Schema({
   },
   photo: {
     type: String,
-    default: ''
-  }
-}, {
-    timestamps: true,
+    default: "",
+  },
 });
 
 
-userSchema.pre("save", function() {
-    this.password = bcrypt.hashSync(this.password, SALT_ROUNDS);
-});
 
-module.exports = mongoose.model('user', userSchema);
+module.exports = mongoose.model("user", userSchema);

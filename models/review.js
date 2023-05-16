@@ -21,8 +21,6 @@ const reviewSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-}, {
-    timestamps: true
 });
 
 //make the tuple (user, restaurant) unique

@@ -39,8 +39,6 @@ const orderSchema = new mongoose.Schema({
         default: ""
     }
 
-}, {
-    timestamps: true,
 });
 
 

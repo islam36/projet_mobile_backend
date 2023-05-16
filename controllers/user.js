@@ -1,4 +1,6 @@
 const User = require("../models/user");
+const bcrypt = require("bcrypt");
+const { SALT_ROUNDS } = require("../util/constants");
 
 exports.getAllUsers = async (req, res) => {
     const users = await User.find();
@@ -22,13 +24,16 @@ exports.createUser = async (req, res) => {
     let user = await User.findOne({ email: req.body?.email });
 
     if(user == null) {
+        const hash = bcrypt.hashSync(req.body.password, SALT_ROUNDS);
+        req.body.password = hash;
+
         user = new User(req.body);
         await user.save();
 
-        return res.json(user);
+        return res.status(200).end();
     }
 
-    return res.status(400).json(null);
+    return res.status(400).end();
 };
 
 
