@@ -25,11 +25,10 @@ const orderSchema = new mongoose.Schema({
             }
         }
     ],
-    notes: [
-        {
-            type: String,
-        }
-    ],
+    notes: {
+        type: String,
+        default: ""
+    },
     deliveryAddress: {
         type: String,
         required: [true, "delivery address is required in the order"]
@@ -37,6 +36,10 @@ const orderSchema = new mongoose.Schema({
     deliveryNotes: {
         type: String,
         default: ""
+    },
+    date: {
+        type: Date,
+        default: Date.now()
     }
 
 });

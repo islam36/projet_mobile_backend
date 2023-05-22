@@ -8,6 +8,7 @@ const userRouter = require("./routes/user");
 const restaurantRouter = require("./routes/restaurant");
 const authRouter = require("./routes/auth");
 const foodRouter = require("./routes/food");
+const orderRouter = require("./routes/order");
 
 const DB_URL = process.env.DB_URL;
 
@@ -35,6 +36,7 @@ app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/restaurants", restaurantRouter);
 app.use("/foods", foodRouter);
+app.use("/orders", orderRouter);
 
 app.get("/", (req, res) => {
     res.json({
