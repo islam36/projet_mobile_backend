@@ -57,3 +57,11 @@ exports.deleteUser = async (req, res) => {
 
     return res.status(200).end();
 }
+
+
+exports.getProfile = async (req, res) => {
+    return res.json({
+        ...req.user._doc,
+        id: req.user._id.toString()
+    })
+}
