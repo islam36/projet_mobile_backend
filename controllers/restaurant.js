@@ -1,19 +1,33 @@
 const Restaurant = require("../models/restaurant");
+const Review = require("../models/review");
 const Food = require("../models/food");
+const mongoose = require("mongoose");
 
 exports.getAllRestaurants = async (req, res) => {
     const restaurants = await Restaurant.find();
 
-    const response = restaurants.map(restaurant => {
+    const response = restaurants.map(async (restaurant) => {
+        let avg = 0;
+        const reviews = await Review.find({ restaurant: restaurant._id });
+
+        if(reviews.length > 0) {
+            reviews.forEach(review => {
+                avg += review.rating;
+            });
+    
+            avg = avg / reviews.length;
+        }
+
         return {
             ...restaurant._doc,
             id: restaurant._id.toString(),
-            rating: 4
+            rating: avg
         }
     });
 
+    const result = await Promise.all(response)
 
-    return res.json(response);
+    return res.json(result);
 }
 
 
@@ -24,10 +38,21 @@ exports.getRestaurantById = async (req, res) => {
         return res.status(404).end();
     }
 
+    let avg = 0;
+    const reviews = await Review.find({ restaurant: new mongoose.Types.ObjectId(req.params.id) });
+
+    if(reviews.length > 0) {
+        reviews.forEach(review => {
+            avg += review.rating;
+        });
+
+        avg = avg / reviews.length;
+    }
+
     const response = {
         ...restaurant._doc,
         id: restaurant._id.toString(),
-        rating: 4
+        rating: avg
     };
 
     return res.json(response);
@@ -45,7 +70,7 @@ exports.createRestaurant = async (req, res) => {
         return res.json({
             ...restaurant._doc,
             id: restaurant._id.toString(),
-            rating: 4
+            rating: 0
         });
     }
 
@@ -64,7 +89,6 @@ exports.editRestaurant = async (req, res) => {
     return res.json({
         ...restaurant._doc,
         id: restaurant._id.toString(),
-        rating: 4
     });
 }
 
