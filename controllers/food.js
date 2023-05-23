@@ -1,16 +1,32 @@
 const Food = require("../models/food");
 const Restaurant = require("../models/restaurant");
+const FoodReview = require("../models/foodReview");
 
 exports.getAllFoods = async (req, res) => {
     const foods = await Food.find();
 
-    const response = foods.map(food => ({
-            ...food._doc,
-            id: food._id.toString()
-        })
-    )
+    const response = foods.map(async (food) => {
+            let avg = 0;
+            const reviews = await FoodReview.find({ food: food._id });
 
-    return res.json(response);
+            if(reviews.length > 0) {
+                reviews.forEach(review => {
+                    avg += review.rating;
+                });
+
+                avg = avg / reviews.length;
+            }
+
+            return {
+                ...food._doc,
+                id: food._id.toString(),
+                rating: avg
+            }
+    });
+
+    const result = await Promise.all(response);
+
+    return res.json(result);
 }
 
 
@@ -21,9 +37,23 @@ exports.getFoodById = async (req, res) => {
         return res.status(404).end();
     }
 
+    let avg = 0;
+    const reviews = await FoodReview.find({ food: food._id });
+
+    if(reviews.length > 0) {
+        reviews.forEach(review => {
+            avg += review.rating;
+        });
+
+        avg = avg / reviews.length;
+    }
+
+
+
     return res.json({
         ...food._doc,
-        id: food._id.toString()
+        id: food._id.toString(),
+        rating: avg
     });
 }
 
