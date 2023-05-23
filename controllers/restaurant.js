@@ -1,6 +1,7 @@
 const Restaurant = require("../models/restaurant");
 const Review = require("../models/review");
 const Food = require("../models/food");
+const FoodReview = require("../models/foodReview");
 const mongoose = require("mongoose");
 
 exports.getAllRestaurants = async (req, res) => {
@@ -21,7 +22,7 @@ exports.getAllRestaurants = async (req, res) => {
         return {
             ...restaurant._doc,
             id: restaurant._id.toString(),
-            rating: avg
+            rating: parseFloat(avg)
         }
     });
 
@@ -52,7 +53,7 @@ exports.getRestaurantById = async (req, res) => {
     const response = {
         ...restaurant._doc,
         id: restaurant._id.toString(),
-        rating: avg
+        rating: parseFloat(avg)
     };
 
     return res.json(response);
@@ -108,11 +109,26 @@ exports.deleteRestaurant = async (req, res) => {
 exports.getAllFoodsOfRestaurant = async (req, res) => {
     const foods = await Food.find({ restaurantId: req.params.id });
 
-    const response = foods.map(food => ({
-            ...food._doc,
-            id: food._id.toString()
-        })
-    );
+    const response = foods.map(async (food) => {
+        let avg = 0;
+        const reviews = await FoodReview.find({ food: food._id });
 
-    return res.json(response);
+        if(reviews.length > 0) {
+            reviews.forEach(review => {
+                avg += review.rating;
+            });
+
+            avg = avg / reviews.length;
+        }
+
+        return {
+            ...food._doc,
+            id: food._id.toString(),
+            rating: avg
+        }
+    });
+
+    const result = await Promise.all(response);
+
+    return res.json(result);
 }

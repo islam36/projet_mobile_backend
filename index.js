@@ -3,6 +3,8 @@ const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const path = require("path");
+var admin = require("firebase-admin");
+
 
 const userRouter = require("./routes/user");
 const restaurantRouter = require("./routes/restaurant");
@@ -16,6 +18,12 @@ const DB_URL = process.env.DB_URL;
 
 mongoose.connect(DB_URL).then(() => {
     console.log("connected successfully to the database!");
+});
+
+const serviceAccount = require("./key.json");
+
+const firebaseApp = admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
 });
 
 const app = express();
