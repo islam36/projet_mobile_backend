@@ -26,6 +26,7 @@ const firebaseApp = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
+
 const app = express();
 
 app.use(express.json());
@@ -63,4 +64,5 @@ const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
     console.log(`express server is running on http://localhost:${PORT}`);
+    console.log()
 });

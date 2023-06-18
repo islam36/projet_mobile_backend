@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { ORDER_STATUS } = require("../util/constants")
 
 const orderSchema = new mongoose.Schema({
     user: {
@@ -40,6 +41,11 @@ const orderSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now()
+    },
+    status: {
+        type: String,
+        enum: ORDER_STATUS,
+        default: ORDER_STATUS[0]
     }
 
 });

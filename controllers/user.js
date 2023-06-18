@@ -30,10 +30,16 @@ exports.createUser = async (req, res) => {
         user = new User(req.body);
         await user.save();
 
-        return res.status(200).end();
+        
+
+        return res.status(200).json({
+            message: "user created successfully"
+        })
     }
 
-    return res.status(400).end();
+    return res.status(400).json({
+        message: "this email is already used"
+    });
 };
 
 

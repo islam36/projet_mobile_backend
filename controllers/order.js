@@ -15,7 +15,7 @@ exports.getAllOrders = async (req, res) => {
         })
     );
 
-    return res.json(orders);
+    return res.json(reponse);
 }
 
 
@@ -47,7 +47,7 @@ exports.createOrder = async (req, res) => {
         return res.status(400).end();
     }
 
-
+    console.log("req body:", req.body);
     const newOrder = new Order({
         user: req.user._id,
         restaurant: restaurant._id,
@@ -81,6 +81,20 @@ exports.getOrderById = async (req, res) => {
         restaurant: order.restaurant.toString(),
         user: order.user.toString()
     });
+}
+
+
+exports.getOrdersOfUser = async (req, res) => {
+    const orders = await Order.find({ user: req.user._id }).sort({ date: -1 });
+    const response = orders.map(order => ({
+            ...order._doc,
+            id: order._id.toString(),
+            restaurant: order.restaurant.toString(),
+            user: order.user.toString()
+        })
+    );
+
+    return res.json(response);
 }
 
 

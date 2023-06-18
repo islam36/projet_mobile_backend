@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: [true, "phone number is required"],
-    match: PHONR_REGEX,
+    // match: PHONR_REGEX,
   },
   password: {
     type: String,
