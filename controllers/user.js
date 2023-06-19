@@ -44,7 +44,7 @@ exports.createUser = async (req, res) => {
 
 
 exports.editUser = async (req, res) => {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const user = await User.findByIdAndUpdate(req.user._id, req.body, { new: true });
 
     if(user == null) {
         return res.status(404).end();
