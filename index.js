@@ -13,6 +13,7 @@ const foodRouter = require("./routes/food");
 const orderRouter = require("./routes/order");
 const reviewRouter = require("./routes/review");
 const foodReviewRouter = require("./routes/foodReview");
+const contactRouter = require("./routes/contact");
 
 const DB_URL = process.env.DB_URL;
 
@@ -46,6 +47,7 @@ app.use("/foods", foodRouter);
 app.use("/orders", orderRouter);
 app.use("/reviews", reviewRouter);
 app.use("/foodReviews", foodReviewRouter);
+app.use("/contact", contactRouter);
 
 app.get("/", (req, res) => {
     res.json({
