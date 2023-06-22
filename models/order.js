@@ -46,8 +46,11 @@ const orderSchema = new mongoose.Schema({
         type: String,
         enum: ORDER_STATUS,
         default: ORDER_STATUS[0]
+    },
+    prixTotal: {
+        type: Number,
+        required: true
     }
-
 });
 
 

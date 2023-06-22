@@ -4,7 +4,8 @@ const { createToken } = require("../util/token");
 
 
 exports.login = async (req, res) => {
-    if(!req.body || !req.body.email || !req.body.password) {
+    console.log(req.body)
+    if(!req.body || !req.body.email || !req.body.password || !req.body.token) {
         return res.status(400).end()
     }
 
@@ -17,6 +18,9 @@ exports.login = async (req, res) => {
 
     if(passwordMatch) {
         const token = createToken(existingUser._id.toString());
+
+        existingUser.tokens.push(req.body.token);
+        await existingUser.save();
 
         return res.json({
             token

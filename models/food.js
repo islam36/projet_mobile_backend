@@ -12,7 +12,7 @@ const foodSchema = new mongoose.Schema({
         default: ""
     },
     prix: {
-        type: String
+        type: Number
     },
     quantity: {
         type: Number,
