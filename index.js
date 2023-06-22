@@ -6,6 +6,7 @@ const path = require("path");
 
 
 
+
 const userRouter = require("./routes/user");
 const restaurantRouter = require("./routes/restaurant");
 const authRouter = require("./routes/auth");
@@ -25,6 +26,7 @@ mongoose.connect(DB_URL).then(() => {
 
 
 const app = express();
+
 
 app.use(express.json());
 app.use(morgan("dev"));
@@ -54,6 +56,7 @@ app.get("/", (req, res) => {
         message: "hello world"
     });
 });
+
 
 
 
